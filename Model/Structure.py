@@ -1,10 +1,14 @@
 import math 
+import torch
+from torch import nn
 from torch.nn import (TransformerEncoderLayer, 
                       TransformerDecoderLayer, 
                       TransformerEncoder, 
                       TransformerDecoder, 
                       Embedding)
-#import vocab
+from Data.vocab import Vocab
+
+
 
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model: int = 512, dropout: float = 0.1, max_len: int = 5000):

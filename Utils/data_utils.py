@@ -1,7 +1,7 @@
 from torch.nn import functional as F
 import torch
 import numpy as np
-from Vocab.vocab import Vocab
+from Data.vocab import Vocab
 
 def padding(vector: list, max_len):
   pad_dim = (0, max_len - len(vector))

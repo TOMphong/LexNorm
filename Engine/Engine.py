@@ -45,7 +45,7 @@ class Engine():
     
     def __call__(self, pretrain = ""):
         self.train()
-    def save_state(self, save_dir="model.pth"):
+    def save_state(self, save_dir="Model/model/model.pth"):
         torch.save({
             'epoch': self.cur_epoch,
             'model_state_dict': self.model.state_dict(),

@@ -2,7 +2,7 @@ import pandas as pd
 import torch
 from torch import nn
 from torch.utils.data import Dataset
-from Vocab.vocab import Vocab
+from .vocab import Vocab
 from collections import Counter
 
 class MyDataset(Dataset):
