@@ -3,7 +3,7 @@ from Engine import *
 from Model import *
 from Utils import *
 from Data import *
-
+from torch.nn import functional as F
 
 
 from torch.utils.data import DataLoader  ## -> builder.py ???
@@ -36,7 +36,7 @@ class Params():
     
     MODEL_PATH = ''
 
-if __name__ == "__main":
+if __name__ == "__main__":
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     p = Params()

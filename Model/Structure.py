@@ -7,7 +7,7 @@ from torch.nn import (TransformerEncoderLayer,
                       TransformerDecoder, 
                       Embedding)
 from Data.vocab import Vocab
-
+from torch.nn import functional as F
 
 
 class PositionalEncoding(nn.Module):
