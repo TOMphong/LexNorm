@@ -9,7 +9,6 @@ from torch.nn import (TransformerEncoderLayer,
 from Data.vocab import Vocab
 from torch.nn import functional as F
 
-
 class PositionalEncoding(nn.Module):
     def __init__(self, d_model: int = 512, dropout: float = 0.1, max_len: int = 5000):
         super(PositionalEncoding, self).__init__()
@@ -99,8 +98,8 @@ class Transformer(nn.Module):
                  max_src_len:int = 5000,
                  max_tgt_len:int = 5000,
                  dim_feedforward:int = 2048,
-                 src_vocab:int = 30000,
-                 tgt_vocab:int = 30000,
+                 src_vocab:int = 3000,
+                 tgt_vocab:int = 3000,
                  batch_first:bool = True
                  ):
         super(Transformer, self).__init__()
@@ -115,8 +114,8 @@ class Transformer(nn.Module):
         tgt_mask = torch.tril(torch.ones((tgt_len, tgt_len))).expand(tgt_len, tgt_len)
         return tgt_mask
 
-    def forward(self, src, tgt):
-        tgt_mask = self.make_tgt_mask(tgt)
+    def forward(self, src, tgt, device='cuda'):
+        tgt_mask = self.make_tgt_mask(tgt).to(device)
 
         enc_out = self.encoding(src)
         
