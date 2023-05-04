@@ -26,18 +26,18 @@ class Engine():
           for batch in tqdm(self.dataloader, desc=f"### Epoch {soe + epoch + 1}"): 
               x = torch.LongTensor(batch['x']).to(self.device)
               y = torch.LongTensor(batch['y']).to(self.device)
-              
+
               output =  model(x,y).argmax(-1).to(torch.float64)
               output.requires_grad = True
-              
+
               loss = self.criterion(output, y.type(torch.float64))
-              
+
               total_loss.append(loss.item())
               self.optim.zero_grad()
               loss.backward()
               self.optim.step()
-              
-              self.loss = sum(total_loss) / len(total_loss)
+
+          self.loss = sum(total_loss) / len(total_loss)
           self.cur_epoch = epoch
           tqdm.write(f"Avg loss: {self.loss}")
     
@@ -45,6 +45,7 @@ class Engine():
     
     def __call__(self, pretrain = ""):
         self.train()
+        
     def save_state(self, save_dir="Model/model/model.pth"):
         torch.save({
             'epoch': self.cur_epoch,
@@ -52,6 +53,7 @@ class Engine():
             'optimizer_state_dict': self.optim.state_dict(),
             'loss': self.loss,
             }, save_dir)
+        
     def load_state(self, load_dir=None):
         state = torch.load(load_dir)
         self.cur_epoch = state['epoch']
