@@ -1,8 +1,8 @@
-from Data.dataset import *
-from Engine.engine import *
-from Model.Structure import *
+from Data import *
+from Engine import *
+from Model import *
 from Utils import *
-from Data.vocab import MyDataset
+from Data import *
 
 
 
