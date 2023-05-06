@@ -27,11 +27,10 @@ class Engine():
               x = torch.LongTensor(batch['x']).to(self.device)
               y = torch.LongTensor(batch['y']).to(self.device)
 
-              output =  model(x,y).argmax(-1).to(torch.float64)
-              output.requires_grad = True
+              output = model(x,y)
+              vocab_size = output.shape[-1]
 
-              loss = self.criterion(output, y.type(torch.float64))
-
+              loss = self.criterion(output.reshape(-1, vocab_size), y.reshape(-1))
               total_loss.append(loss.item())
               self.optim.zero_grad()
               loss.backward()
