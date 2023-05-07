@@ -3,7 +3,17 @@ from torch import nn
 from torch import Tensor
 import torch.nn.functional as F
 
+def attention(query: Tensor, key: Tensor, value: Tensor, mask: Tensor=None) -> Tensor:
+    sqrt_d = query.shape[-1]**0.5
 
+    scores = torch.matmul(query, key.transpose(-2, -1))
+    scores = scores / sqrt_d
+    
+    if mask is not None:
+        scores = scores.masked_fill(mask==0, -1e9)
+    
+    weight = F.softmax(scores, dim=-1)    
+    return torch.matmul(weight, value)
 
 class MultiHeadAttention(nn.Module):
     def __init__(self, num_heads: int, d_model: int, dropout: float) -> None:
@@ -19,19 +29,6 @@ class MultiHeadAttention(nn.Module):
         self.value  = nn.Linear(d_model, d_model)
         self.output = nn.Linear(d_model, d_model)
         self.dropout = nn.Dropout(dropout)
-
-    def attention(query: Tensor, key: Tensor, value: Tensor, mask: Tensor=None) -> Tensor:
-        sqrt_d = query.shape[-1]**0.5
-
-        scores = torch.matmul(query, key.transpose(-2, -1))
-        scores = scores / sqrt_d
-        
-        if mask is not None:
-            scores = scores.masked_fill(mask==0, -1e9)
-        
-        weight = F.softmax(scores, dim=-1)    
-        return torch.matmul(weight, value)
-
 
     def forward(self, x: Tensor, y: Tensor, mask: Tensor=None) -> Tensor:
         query = self.query(x)

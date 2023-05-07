@@ -1,6 +1,6 @@
 import torch.nn as nn
 from torch import Tensor
-from modules import Embedding, PositionalEncoding, Encoder, Decoder
+from .modules import Embedding, PositionalEncoding, Encoder, Decoder
 
 class BaseTransformer(nn.Module):
     def __init__(self,

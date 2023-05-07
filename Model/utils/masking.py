@@ -2,7 +2,7 @@ import torch
 from torch import Tensor
 from Data.vocab import Vocab
 
-def create_masks(src_batch: Tensor, tgt_batch: Tensor):
+def create_masks(src_batch: Tensor, tgt_batch: Tensor, device: str = "cpu"):
     # ----------------------------------------------------------------------
     # [1] padding mask
     # ----------------------------------------------------------------------
@@ -28,5 +28,5 @@ def create_masks(src_batch: Tensor, tgt_batch: Tensor):
     # add a batch dim (1, max_tgt_seq_len, max_tgt_seq_len)
     subsequent_mask = subsequent_mask.unsqueeze(0)
 
-    return src_pad_mask, tgt_pad_mask & subsequent_mask
+    return src_pad_mask.to(device), (tgt_pad_mask & subsequent_mask).to(device)
 

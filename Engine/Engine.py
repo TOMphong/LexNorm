@@ -2,7 +2,10 @@ import os
 import torch
 from tqdm import tqdm
 
-class Engine():
+from Model.utils.masking import create_masks
+
+
+class Trainer():
     def __init__(self, model, criterion, optim, epochs, dataloader, device):
         self.model = model
         self.criterion = criterion
@@ -26,8 +29,10 @@ class Engine():
           for batch in tqdm(self.dataloader, desc=f"### Epoch {soe + epoch + 1}"): 
               x = torch.LongTensor(batch['x']).to(self.device)
               y = torch.LongTensor(batch['y']).to(self.device)
-
-              output = model(x,y)
+              mask_x, mask_y = create_masks(torch.LongTensor(batch['x']), torch.LongTensor(batch['y']))
+              
+              output = model(x,y, mask_x.to(self.device), mask_y.to(self.device))
+              
               vocab_size = output.shape[-1]
 
               loss = self.criterion(output.reshape(-1, vocab_size), y.reshape(-1))

@@ -47,12 +47,20 @@ if __name__ == "__main__":
     src_vocab = len(data.vocab)
     tgt_vocab = len(data.vocab)
 
-    model = Transformer(src_vocab = src_vocab, tgt_vocab = tgt_vocab)
-
+    #model = Transformer(src_vocab = src_vocab, tgt_vocab = tgt_vocab)
+    model = BaseTransformer(input_vocab_size=src_vocab,
+                 output_vocab_size=tgt_vocab,
+                 max_positions = 3000,
+                 num_e_blocks=1,
+                 num_d_blocks=1,
+                 num_heads=8,
+                 d_model=512,
+                 dim_pffn=2048,
+                 dropout=0.1)
     criterion =  nn.CrossEntropyLoss()
 
     optimizer = torch.optim.Adam(model.parameters(), betas=(0.9, 0.98), eps=1e-09, lr=0.01)
 
-    e = Engine(model, criterion, optimizer, 3, traindata, device)
+    t = Trainer(model, criterion, optimizer, 3, traindata, device)
 
-    e()
+    t()

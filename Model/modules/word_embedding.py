@@ -16,7 +16,7 @@ class Embedding(nn.Module):
         return x
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model: int = 512, dropout: float = 0.1, max_positions: int = 5000):
+    def __init__(self, d_model: int = 512, max_positions: int = 5000, dropout: float = 0.1):
         super(PositionalEncoding, self).__init__()
         self.dropout = nn.Dropout(p=dropout)
 
