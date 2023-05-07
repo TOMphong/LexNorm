@@ -48,7 +48,7 @@ class MultiHeadAttention(nn.Module):
         if mask is not None:
             mask = mask.unsqueeze(1)
 
-        attn = self.attention(query, key, value, mask)
+        attn = attention(query, key, value, mask)
         attn = attn.transpose(1, 2).contiguous().view(batch_size, -1, self.dim_embed)
         
         out = self.dropout(self.output(attn))
