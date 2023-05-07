@@ -16,17 +16,33 @@ class Embedding(nn.Module):
         return x
 
 class PositionalEncoding(nn.Module):
-    def __init__(self, d_model: int = 512, max_positions: int = 5000, dropout: float = 0.1):
-        super(PositionalEncoding, self).__init__()
-        self.dropout = nn.Dropout(p=dropout)
+    def __init__(self, max_positions: int, d_model: int, dropout: float) -> None:
+        super().__init__()
 
+        assert d_model % 2 == 0
+
+        # Inspired by https://pytorch.org/tutorials/beginner/transformer_tutorial.html
         position = torch.arange(max_positions).unsqueeze(1)
-        div_term = torch.exp(torch.arange(0, d_model, 2) * (-math.log(10000.0) / d_model))
-        pe = torch.zeros(max_positions, 1, d_model)
-        pe[:, 0, 0::2] = torch.sin(position * div_term)
-        pe[:, 0, 1::2] = torch.cos(position * div_term)
-        self.register_buffer('pe', pe)
+        dim_pair = torch.arange(0, d_model, 2)
+        div_term = torch.exp(dim_pair * (-math.log(10000.0) / d_model))
 
-    def forward(self, x):
-        x = x + self.pe[:x.size(0)]
-        return self.dropout(x)
+        pe = torch.zeros(max_positions, d_model)
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term)
+        
+        # Add a batch dimension: (1, max_positions, d_model)
+        pe = pe.unsqueeze(0)
+        
+        # Register as non-learnable parameters
+        self.register_buffer('pe', pe)
+        
+        self.dropout = nn.Dropout(p=dropout)
+        
+    def forward(self, x: Tensor) -> Tensor:
+        # Max sequence length within the current batch
+        max_sequence_length = x.size(1)
+        
+        # Add positional encoding up to the max sequence length
+        x = x + self.pe[:, :max_sequence_length]
+        x = self.dropout(x)
+        return x
