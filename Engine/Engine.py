@@ -29,9 +29,9 @@ class Trainer():
           for batch in tqdm(self.dataloader, desc=f"### Epoch {soe + epoch + 1}"): 
               x = torch.LongTensor(batch['x']).to(self.device)
               y = torch.LongTensor(batch['y']).to(self.device)
-              mask_x, mask_y = create_masks(torch.LongTensor(batch['x']), torch.LongTensor(batch['y']))
+              mask_x, mask_y = create_masks(torch.LongTensor(batch['x']), torch.LongTensor(batch['y']), self.device)
               
-              output = model(x,y, mask_x.to(self.device), mask_y.to(self.device))
+              output = model(x, y, mask_x, mask_y)
               
               vocab_size = output.shape[-1]
 
