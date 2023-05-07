@@ -7,7 +7,7 @@ from collections import Counter
 
 class MyDataset(Dataset):
   def __init__(self, filename:str, tokenize = None, max_src_len: int=None, 
-               max_tgt_len: int=None, max_rows: int=None, truncate_src: bool=False, truncate_tgt: bool=False):
+               max_tgt_len: int=None, max_rows: int=None, truncate_src: bool=False, truncate_tgt: bool=False, min_freq: int = 0):
       super(MyDataset, self).__init__()
       print("Reading dataset {}...".format(filename), end=' ', flush=True)
       
@@ -18,6 +18,7 @@ class MyDataset(Dataset):
       self.src_len = 0
       self.tgt_len = 0
       self.max_rows = max_rows 
+      self.min_freq = min_freq
 
 
       if max_rows is None:
@@ -50,13 +51,13 @@ class MyDataset(Dataset):
 
       self.build_vocab()
 
-  def build_vocab(self, name: str = "vocab", min_freq: int = 0, save_vocab: bool=False, save_dir:str = "vocab.pth")->Vocab:
+  def build_vocab(self, name: str = "vocab", save_vocab: bool=False, save_dir:str = "vocab.pth")->Vocab:
       total_words = [src+tgt for src,tgt, len_src, len_tgt in self.pairs]
       total_words = [item for sublist in total_words for item in sublist]
       word_counts = Counter(total_words)
       vocab = Vocab(name=name)
       for word, count in word_counts.items():
-        if(count > min_freq):
+        if(count > self.min_freq):
           vocab.add_by_words([word])
 
       print(f"Vocab {name} of dataset {self.filename} was created.", flush=True)
