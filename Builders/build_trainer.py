@@ -16,23 +16,23 @@ def build_trainer(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model, data = build_model(config)
     traindata = DataLoader(dataset = data, 
-                           batch_size = config.ENGINE.TRAINER.batch_size, 
+                           batch_size = config.ENGINE_TRAINER_batch_size, 
                            collate_fn = my_collate, 
-                           shuffle = config.ENGINE.TRAINER.shuffle)
+                           shuffle = config.ENGINE_TRAINER_shuffle)
     criterion =  nn.CrossEntropyLoss()
     
     optimizer = torch.optim.Adam(params = model.parameters(), 
-                                 betas = config.ENGINE.TRAINER.betas, 
-                                 eps = config.ENGINE.TRAINER.eps, 
-                                 lr = config.ENGINE.TRAINER.lr)
+                                 betas = config.ENGINE_TRAINER_betas, 
+                                 eps = config.ENGINE_TRAINER_eps, 
+                                 lr = config.ENGINE_TRAINER_lr)
 
     trainer = Trainer(model = model,
                      criterion = criterion,
                      optim = optimizer,
-                     epochs = config.ENGINE.TRAINER.epochs,
+                     epochs = config.ENGINE_TRAINER_epochs,
                      dataloader = traindata,
                      device = device)
     
-    pretrain = config.ENGINE.TRAINER.pretrain
+    pretrain = config.ENGINE_TRAINER_pretrain
 
     return trainer, pretrain

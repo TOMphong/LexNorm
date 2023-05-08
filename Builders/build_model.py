@@ -12,11 +12,11 @@ def build_model(config):
     model = BaseTransformer(input_vocab_size = src_vocab,
                             output_vocab_size = tgt_vocab,
                             max_positions = data.src_len+2,
-                            num_e_blocks = config.MODEL.num_e_blocks,
-                            num_e_blocks = config.MODEL.num_d_blocks,
-                            num_heads = config.MODEL.num_heads,
-                            d_model = config.MODEL.d_model,
-                            dim_pffn = config.MODEL.dim_pffn,
-                            dropout = config.MODEL.dropout)
+                            num_e_blocks = config.MODEL_num_e_blocks,
+                            num_e_blocks = config.MODEL_num_d_blocks,
+                            num_heads = config.MODEL_num_heads,
+                            d_model = config.MODEL_d_model,
+                            dim_pffn = config.MODEL_dim_pffn,
+                            dropout = config.MODEL_dropout)
     
     return model, data
