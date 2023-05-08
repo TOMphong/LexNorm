@@ -36,14 +36,15 @@ class BaseConfig():
         self.ENGINE.TRAINER.lr = 0.01
 
         # Trainer
-        self.ENGINE.TRAINER.checkpoint = "Model/models/model.pth"
+        self.ENGINE.TRAINER.checkpoint = "Model/models/model.pth"  # to save params
         self.ENGINE.TRAINER.epochs = 5
+        self.ENGINE.TRAINER.pretrain = ""                        # to load params
 
         #==============MODEL=================        
 
         #self.MODEL.input_vocab_size   #depends on the data
         #self.MODEL.output_vocab_size  #depends on the data
-        self.MODEL.max_positions = 512
+        #self.MODEL.max_positions = 512
         self.MODEL.num_e_blocks = 1
         self.MODEL.num_d_blocks = 1
         self.MODEL.num_heads = 8

@@ -48,7 +48,7 @@ class Trainer():
 
     
     def __call__(self, pretrain = ""):
-        self.train()
+        self.train(pretrain)
         
     def save_state(self, save_dir="Model/model/model.pth"):
         torch.save({
