@@ -13,7 +13,7 @@ def build_model(config):
                             output_vocab_size = tgt_vocab,
                             max_positions = data.src_len+2,
                             num_e_blocks = config.MODEL_num_e_blocks,
-                            num_e_blocks = config.MODEL_num_d_blocks,
+                            num_d_blocks = config.MODEL_num_d_blocks,
                             num_heads = config.MODEL_num_heads,
                             d_model = config.MODEL_d_model,
                             dim_pffn = config.MODEL_dim_pffn,

@@ -18,13 +18,13 @@ class BaseConfig():
 
         self.DATA_DATASET_truncate_tgt = False
         self.DATA_DATASET_max_tgt_len = None
-        self.DATA_DATASET_max_rows = 1000
-        self.DATA_DATASET_min_preq = 0
+        self.DATA_DATASET_max_rows = 100
+        self.DATA_DATASET_min_freq = 0
 
         #==============ENGINE=================
         
         #Dataloader
-        self.ENGINE_TRAINER_batch_size = 100
+        self.ENGINE_TRAINER_batch_size = 10
         self.ENGINE_TRAINER_shuffle = True
         
         #Loss
