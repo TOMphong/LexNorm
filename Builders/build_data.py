@@ -1,8 +1,6 @@
-from Configs.BaseConfig import BaseConfig
 from Utils import tokenizing
 from Data import *
 
-config = BaseConfig()
 
 def build_data(config):
     vocab = Vocab(config.DATA_VOCAB_name)

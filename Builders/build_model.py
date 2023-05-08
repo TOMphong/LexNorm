@@ -1,9 +1,7 @@
-from Configs.BaseConfig import BaseConfig
 from .build_data import build_data
 from Model.BaseTransformer import BaseTransformer
 
 
-config = BaseConfig()
 
 def build_model(config):
     data = build_data(config)

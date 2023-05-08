@@ -1,6 +1,4 @@
 from .build_model import build_model
-from .build_data import build_data
-from Configs.BaseConfig import BaseConfig
 from Utils import my_collate
 from Engine import Trainer
 
@@ -10,7 +8,6 @@ from torch import nn
 
 
 
-config = BaseConfig()
 
 def build_trainer(config):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
